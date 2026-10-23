@@ -1,0 +1,23 @@
+{
+  "skill_name": "buddyhue-skill",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "帮我检查这台 Mac 是否能运行 BuddyHue；缺什么就安装好，但不要重启 WorkBuddy。",
+      "expected_output": "Checks Node.js, npm, Git, BuddyHue, WorkBuddy, and doctor output; installs only missing local dependencies and does not restart WorkBuddy.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "基于我们的品牌蓝和吉祥物，给 WorkBuddy 5.9.1 做一个 BuddyHue 皮肤包，先查清楚这个版本哪些模块能改，再打包验证。",
+      "expected_output": "Reads the exact 5.9.1 capability record, limits selectors to verified modules, creates a declarative theme, then validates, packs, inspects, and reports the package.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "把已安装的 ocean-brand@1.2.0 应用到 WorkBuddy，确认没问题；如果需要重启先问我。之后也告诉我怎么恢复默认。",
+      "expected_output": "Runs doctor, resolves the exact version record, preflights, applies without restart first, asks before restart if required, verifies, and explains the restore workflow.",
+      "files": []
+    }
+  ]
+}
