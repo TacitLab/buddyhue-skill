@@ -4,19 +4,19 @@
     {
       "id": 1,
       "prompt": "帮我检查这台 Mac 是否能运行 BuddyHue；缺什么就安装好，但不要重启 WorkBuddy。",
-      "expected_output": "Checks Node.js, npm, Git, BuddyHue, WorkBuddy, and doctor output; installs only missing local dependencies and does not restart WorkBuddy.",
+      "expected_output": "检查 Node.js、npm、Git、BuddyHue、WorkBuddy 以及 doctor 输出；只安装缺少的本地依赖，不重启 WorkBuddy。",
       "files": []
     },
     {
       "id": 2,
       "prompt": "基于我们的品牌蓝和吉祥物，给 WorkBuddy 5.9.1 做一个 BuddyHue 皮肤包，先查清楚这个版本哪些模块能改，再打包验证。",
-      "expected_output": "Reads the exact 5.9.1 capability record, limits selectors to verified modules, creates a declarative theme, then validates, packs, inspects, and reports the package.",
+      "expected_output": "读取 5.9.1 精确版本能力记录，只对已验证模块使用稳定选择器；创建声明式主题，并完成校验、打包、检查和结果报告。",
       "files": []
     },
     {
       "id": 3,
       "prompt": "把已安装的 ocean-brand@1.2.0 应用到 WorkBuddy，确认没问题；如果需要重启先问我。之后也告诉我怎么恢复默认。",
-      "expected_output": "Runs doctor, resolves the exact version record, preflights, applies without restart first, asks before restart if required, verifies, and explains the restore workflow.",
+      "expected_output": "运行 doctor 并定位精确版本记录；完成预检后先尝试不重启应用，如确需重启则先询问用户，随后验证结果并说明恢复默认外观的流程。",
       "files": []
     }
   ]

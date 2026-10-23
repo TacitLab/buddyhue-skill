@@ -16,11 +16,11 @@ while [ "$#" -gt 0 ]; do
       shift 2
       ;;
     -h|--help)
-      printf '%s\n' "Usage: check-environment.sh [--buddyhue-root PATH] [--app-path PATH]"
+      printf '%s\n' "用法：check-environment.sh [--buddyhue-root 路径] [--app-path 路径]"
       exit 0
       ;;
     *)
-      printf 'Unknown option: %s\n' "$1" >&2
+      printf '未知选项：%s\n' "$1" >&2
       exit 2
       ;;
   esac
@@ -30,33 +30,33 @@ missing_tools=0
 buddyhue_ready=0
 workbuddy_found=0
 
-printf 'BuddyHue environment check\n'
-printf 'OS: %s %s\n' "$(uname -s 2>/dev/null || printf unknown)" "$(uname -m 2>/dev/null || printf unknown)"
+printf 'BuddyHue 环境检查\n'
+printf '操作系统：%s %s\n' "$(uname -s 2>/dev/null || printf 未知)" "$(uname -m 2>/dev/null || printf 未知)"
 
 if command -v node >/dev/null 2>&1; then
-  node_version="$(node --version 2>/dev/null || printf unknown)"
+  node_version="$(node --version 2>/dev/null || printf 未知)"
   if node -e 'const [major, minor] = process.versions.node.split(".").map(Number); process.exit(major > 20 || (major === 20 && minor >= 12) ? 0 : 1)' >/dev/null 2>&1; then
-    printf 'OK Node.js: %s\n' "$node_version"
+    printf '正常 Node.js：%s\n' "$node_version"
   else
-    printf 'ERROR Node.js: %s; version 20.12 or newer is required\n' "$node_version"
+    printf '错误 Node.js：%s；需要 20.12 或更高版本\n' "$node_version"
     missing_tools=1
   fi
 else
-  printf 'ERROR Node.js: not found; version 20.12 or newer is required\n'
+  printf '错误 Node.js：未找到；需要 20.12 或更高版本\n'
   missing_tools=1
 fi
 
 if command -v npm >/dev/null 2>&1; then
-  printf 'OK npm: %s\n' "$(npm --version 2>/dev/null || printf unknown)"
+  printf '正常 npm：%s\n' "$(npm --version 2>/dev/null || printf 未知)"
 else
-  printf 'ERROR npm: not found\n'
+  printf '错误 npm：未找到\n'
   missing_tools=1
 fi
 
 if command -v git >/dev/null 2>&1; then
-  printf 'OK Git: %s\n' "$(git --version 2>/dev/null || printf unknown)"
+  printf '正常 Git：%s\n' "$(git --version 2>/dev/null || printf 未知)"
 else
-  printf 'ERROR Git: not found\n'
+  printf '错误 Git：未找到\n'
   missing_tools=1
 fi
 
@@ -71,35 +71,35 @@ elif [ -n "$buddyhue_root" ] && [ -f "$buddyhue_root/bin/wbhue.mjs" ]; then
 fi
 
 if [ -n "$cli_kind" ]; then
-  printf 'OK BuddyHue CLI: %s\n' "$cli_value"
+  printf '正常 BuddyHue CLI：%s\n' "$cli_value"
   buddyhue_ready=1
 else
-  printf 'MISSING BuddyHue CLI: set BUDDYHUE_ROOT or install/link wbhue\n'
+  printf '缺少 BuddyHue CLI：请设置 BUDDYHUE_ROOT，或安装并链接 wbhue\n'
 fi
 
 if [ -e "$workbuddy_app" ]; then
-  printf 'OK WorkBuddy: %s\n' "$workbuddy_app"
+  printf '正常 WorkBuddy：%s\n' "$workbuddy_app"
   workbuddy_found=1
 else
-  printf 'MISSING WorkBuddy: %s\n' "$workbuddy_app"
+  printf '缺少 WorkBuddy：%s\n' "$workbuddy_app"
 fi
 
 if [ "$missing_tools" -ne 0 ]; then
-  printf 'RESULT base dependencies are incomplete\n'
+  printf '结果：基础依赖不完整\n'
   exit 10
 fi
 
 if [ "$buddyhue_ready" -eq 0 ]; then
-  printf 'RESULT install BuddyHue before continuing\n'
+  printf '结果：继续前需要安装 BuddyHue\n'
   exit 11
 fi
 
 if [ "$workbuddy_found" -eq 0 ]; then
-  printf 'RESULT authoring is available, but live apply and restore are unavailable\n'
+  printf '结果：可以制作皮肤，但无法实时应用或恢复\n'
   exit 12
 fi
 
-printf 'Doctor output follows:\n'
+printf '以下是 doctor 检查结果：\n'
 if [ "$cli_kind" = "binary" ]; then
   "$cli_value" doctor --json --app-path "$workbuddy_app"
   doctor_status=$?
@@ -109,8 +109,8 @@ else
 fi
 
 if [ "$doctor_status" -ne 0 ]; then
-  printf 'RESULT BuddyHue doctor requires attention; exit code %s\n' "$doctor_status"
+  printf '结果：BuddyHue doctor 检查需要处理；退出码 %s\n' "$doctor_status"
   exit "$doctor_status"
 fi
 
-printf 'RESULT environment is ready\n'
+printf '结果：环境已就绪\n'

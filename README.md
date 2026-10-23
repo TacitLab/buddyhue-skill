@@ -1,25 +1,30 @@
 # BuddyHue Skill
 
-An [Agent Skills](https://agentskills.io/specification)-compatible skill for creating and operating declarative WorkBuddy skins with [BuddyHue](https://github.com/TacitLab/BuddyHue).
+这是一个遵循 [Agent Skills 规范](https://agentskills.io/specification)的 WorkBuddy Skill，用于通过 [BuddyHue](https://github.com/TacitLab/BuddyHue) 制作、应用和管理声明式皮肤。
 
-## Capabilities
+## 能力
 
-- Check the local environment and install BuddyHue dependencies.
-- Resolve exact WorkBuddy version capability records before choosing customizable modules or selectors.
-- Create, validate, package, inspect, and install `.buddyhue-theme` files.
-- Preflight, apply, verify, switch, and restore WorkBuddy skins with explicit safeguards around restarts and unverified versions.
+- 检查本机环境，并补齐 BuddyHue 所需依赖。
+- 在选择可定制模块和选择器之前，查询当前 WorkBuddy 精确版本的能力记录。
+- 创建、校验、打包、检查和安装 `.buddyhue-theme` 皮肤文件。
+- 对皮肤进行预检、应用、验证、切换和恢复，并在重启 WorkBuddy 或尝试未经验证的版本前征得用户同意。
 
-## Install for Claude Code
+## 从 SkillHub 安装（推荐）
 
-Clone the repository so the directory name remains `buddyhue-skill`:
+在 WorkBuddy 中通过 SkillHub 安装：
 
-```bash
-git clone https://github.com/TacitLab/buddyhue-skill.git ~/.claude/skills/buddyhue-skill
-```
+[安装 BuddyHue Skill](https://skillhub.cn/skills/user_bf54c80c/buddyhue-skill)
 
-Restart the Claude Code session after installation so the skill can be discovered.
+安装后，可以直接在 WorkBuddy 中提出这类请求：
 
-## Structure
+- “检查 BuddyHue 环境并安装缺少的依赖。”
+- “先确认我的 WorkBuddy 版本支持修改哪些模块，再制作一个企业皮肤。”
+- “应用这个 `.buddyhue-theme`，如果需要重启先问我。”
+- “恢复 WorkBuddy 默认外观。”
+
+> SkillHub 安装的是供 WorkBuddy 调用的 Skill。BuddyHue CLI 是它执行皮肤制作与应用时使用的运行依赖；若本机尚未安装，Skill 会先检查环境，再按照参考文档完成本地安装。
+
+## 目录结构
 
 ```text
 buddyhue-skill/
@@ -31,4 +36,4 @@ buddyhue-skill/
 └── evals/evals.json
 ```
 
-`SKILL.md` contains the decision workflow. Detailed BuddyHue behavior and exact-version compatibility rules load only when relevant.
+`SKILL.md` 定义任务判断与执行流程；BuddyHue 命令细节和 WorkBuddy 精确版本兼容规则只在相关任务中按需读取。

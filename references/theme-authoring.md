@@ -1,10 +1,10 @@
-# BuddyHue v1 theme authoring
+# BuddyHue v1 皮肤制作规范
 
-Read this reference when creating or editing a BuddyHue skin.
+创建或编辑 BuddyHue 皮肤时，阅读本参考文档。
 
-## Source project
+## 主题源项目
 
-A minimal theme contains:
+最小主题包含：
 
 ```text
 my-theme/
@@ -12,21 +12,21 @@ my-theme/
 └── workbuddy.css
 ```
 
-Local images may be placed in `assets/`.
+本地图片可以放在 `assets/` 中。
 
-## Manifest example
+## 清单示例
 
 ```json
 {
-  "$schema": "<path-to-buddyhue>/schemas/buddyhue-manifest.schema.json",
+  "$schema": "<buddyhue-path>/schemas/buddyhue-manifest.schema.json",
   "schemaVersion": 1,
   "id": "ocean-brand",
-  "name": "Ocean Brand",
+  "name": "海洋品牌",
   "version": "1.0.0",
-  "description": "A restrained enterprise WorkBuddy theme.",
-  "author": "Example Studio",
-  "license": "All Rights Reserved",
-  "tags": ["enterprise", "blue"],
+  "description": "一款沉稳的企业级 WorkBuddy 主题。",
+  "author": "示例设计团队",
+  "license": "保留所有权利",
+  "tags": ["企业", "蓝色"],
   "compatibility": {
     "workbuddy": ">=5.9.0 <5.10.0"
   },
@@ -45,39 +45,39 @@ Local images may be placed in `assets/`.
 }
 ```
 
-Use a relative `$schema` path that is valid from the actual theme directory. Let `wbhue theme create` generate the initial files whenever possible.
+`$schema` 应使用从实际主题目录出发能够正确解析的相对路径。条件允许时，优先通过 `wbhue theme create` 生成初始文件。
 
-## Compatibility range
+## 兼容版本范围
 
-BuddyHue v1 accepts the fixed form:
+BuddyHue v1 接受以下固定格式：
 
 ```text
->=minimum-version <maximum-version
+>=最低版本 <最高版本
 ```
 
-Keep the range constrained to versions with exact capability records and equivalent validation evidence. A broad range is not a substitute for testing.
+兼容范围只能覆盖已经存在精确版本能力记录且拥有等效验证证据的版本。宽泛的版本范围不能代替实际测试。
 
-## CSS and asset constraints
+## CSS 与资源限制
 
-- CSS must be no larger than 1 MiB.
-- The packaged theme must be no larger than 30 MiB.
-- A package may contain at most 32 images.
-- Images may be PNG, JPEG, WebP, or GIF.
-- Image IDs must match `[A-Za-z0-9][A-Za-z0-9_-]*`.
-- Do not use `@import`.
-- Do not use non-`data:` URLs in CSS.
-- Do not include JavaScript, renderer plugins, commands, or lifecycle scripts.
-- Source files and assets must remain inside the theme project; reject absolute paths and `..` traversal.
+- CSS 不得超过 1 MiB。
+- 打包后的主题不得超过 30 MiB。
+- 每个皮肤包最多包含 32 张图片。
+- 图片格式可以是 PNG、JPEG、WebP 或 GIF。
+- 图片标识必须匹配 `[A-Za-z0-9][A-Za-z0-9_-]*`。
+- 不得使用 `@import`。
+- CSS 中不得使用非 `data:` 地址。
+- 不得包含 JavaScript、渲染器插件、命令或生命周期脚本。
+- 源文件和资源必须位于主题项目内；拒绝绝对路径以及通过 `..` 跨越目录的路径。
 
-Packed images are exposed to CSS as:
+打包后的图片会以 CSS 变量形式提供：
 
 ```css
 background-image: var(--codedrobe-image-background);
 ```
 
-## Selector policy
+## 选择器规则
 
-Scope rules to the BuddyHue host classes when appropriate:
+适当时，应将规则限定在 BuddyHue 宿主类名下：
 
 ```css
 html.codedrobe-theme.codedrobe-host-workbuddy {
@@ -85,21 +85,21 @@ html.codedrobe-theme.codedrobe-host-workbuddy {
 }
 ```
 
-Use only semantic selectors documented for the exact WorkBuddy version. Do not use `_grid_*`, generated hashes, or text-content selectors as a long-lived contract.
+只使用 WorkBuddy 精确版本记录中列出的语义选择器。不得把 `_grid_*`、生成的哈希类名或基于文本内容的选择器作为长期兼容契约。
 
-Cover all states that the version record exposes: default, hover, selected, expanded, focus-visible, enabled, and disabled. Preserve readable contrast and do not place decorative layers above messages, input areas, menus, or buttons.
+覆盖版本记录所暴露的全部状态：默认、悬停、选中、展开、键盘聚焦、启用和禁用。保持文字对比度；装饰层不得覆盖消息、输入区域、菜单或按钮。
 
-## Required authoring sequence
+## 必须遵循的制作顺序
 
-1. Read the exact version capability record.
-2. Create the source project.
-3. Add CSS and local assets.
-4. Validate the manifest and resources.
-5. Fix errors; review warnings.
-6. Pack to `.buddyhue-theme`.
-7. Inspect the package and integrity metadata.
-8. Install it in the local BuddyHue library.
-9. If requested, preflight, apply, and verify against the live WorkBuddy window.
-10. Inspect representative screens and interaction states before declaring the skin complete.
+1. 阅读 WorkBuddy 精确版本能力记录。
+2. 创建主题源项目。
+3. 添加 CSS 和本地资源。
+4. 校验清单与资源。
+5. 修复错误并审阅警告。
+6. 打包为 `.buddyhue-theme`。
+7. 检查皮肤包及其完整性元数据。
+8. 安装到本地 BuddyHue 主题库。
+9. 用户要求时，对实时 WorkBuddy 窗口执行预检、应用和验证。
+10. 检查代表性页面与交互状态后，才能宣告皮肤完成。
 
-Prefer incrementing the theme version whenever packaged content changes. This preserves reproducibility and avoids `install --force` conflicts.
+每次打包内容发生变化时，优先提高主题版本号，以便保持结果可复现并避免 `install --force` 冲突。

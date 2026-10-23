@@ -1,40 +1,40 @@
-# BuddyHue setup and CLI operations
+# BuddyHue 环境配置与命令操作
 
-Read this reference for environment setup, dependency installation, application, restoration, or BuddyHue exit-code handling.
+处理环境配置、依赖安装、皮肤应用、默认外观恢复或 BuddyHue 退出码时，阅读本参考文档。
 
-## Requirements
+## 环境要求
 
-- Node.js 20.12 or newer
+- Node.js 20.12 或更高版本
 - npm
 - Git
-- macOS WorkBuddy for the currently verified runtime workflow
-- Network access for the initial clone and `npm install`
+- macOS 版 WorkBuddy（当前已验证的运行环境）
+- 首次获取源码及执行 `npm install` 时需要网络访问
 
-The canonical BuddyHue repository is:
+BuddyHue 官方源码仓库：
 
 ```text
 https://github.com/TacitLab/BuddyHue
 ```
 
-## Locate an existing CLI
+## 查找已有命令行工具
 
-Try these options in order:
+按以下顺序检查：
 
 1. `command -v wbhue`
-2. A user-provided BuddyHue checkout containing `bin/wbhue.mjs`
-3. A nearby checkout whose `package.json` has `"name": "buddyhue"`
+2. 用户提供且包含 `bin/wbhue.mjs` 的 BuddyHue 源码目录
+3. 附近目录中 `package.json` 的 `"name"` 为 `"buddyhue"` 的源码目录
 
-When using a checkout directly, invoke:
+直接使用源码目录时，调用：
 
 ```bash
-node <buddyhue-root>/bin/wbhue.mjs <command>
+node <buddyhue-root>/bin/wbhue.mjs <命令>
 ```
 
-Do not assume a global link is present.
+不要假设系统已经存在全局链接。
 
-## Fresh local setup
+## 首次本地安装
 
-Choose a destination that does not overwrite an existing directory, then run:
+选择一个不会覆盖已有目录的位置，然后运行：
 
 ```bash
 git clone https://github.com/TacitLab/BuddyHue.git <buddyhue-root>
@@ -43,52 +43,52 @@ node <buddyhue-root>/bin/wbhue.mjs --help
 node <buddyhue-root>/bin/wbhue.mjs doctor --json
 ```
 
-This keeps the installation local to the checkout. If the user explicitly wants a global `wbhue` command, run `npm link` from the checkout after explaining that it changes the machine-wide npm command set.
+这种方式将安装范围限制在源码目录内。如果用户明确希望获得全局 `wbhue` 命令，应先说明它会修改整台机器的 npm 全局命令集合，再从源码目录执行 `npm link`。
 
-Do not use `curl | sh`, modify WorkBuddy, or weaken macOS security to install BuddyHue.
+不要使用 `curl | sh`，不要为了安装 BuddyHue 修改 WorkBuddy，也不要降低 macOS 安全设置。
 
-## Common commands
+## 常用命令
 
 ```text
 wbhue doctor --json
 wbhue status --json
 wbhue home --json
-wbhue install <package> --json
+wbhue install <皮肤包> --json
 wbhue ls --json
-wbhue info <id[@version]> --json
-wbhue preflight <package|id[@version]> --json
-wbhue apply <package|id[@version]> --json
-wbhue verify <package|id[@version]> --json
+wbhue info <标识[@版本]> --json
+wbhue preflight <皮肤包|标识[@版本]> --json
+wbhue apply <皮肤包|标识[@版本]> --json
+wbhue verify <皮肤包|标识[@版本]> --json
 wbhue restore --json
-wbhue probe [package|id[@version]] --json
-wbhue snapshot <output.json>
-wbhue theme create <directory> --id <id> --name <name>
+wbhue probe [皮肤包|标识[@版本]] --json
+wbhue snapshot <输出文件.json>
+wbhue theme create <目录> --id <标识> --name <名称>
 wbhue theme validate <buddyhue.json> --json
-wbhue theme pack <buddyhue.json> --output <name.buddyhue-theme> --json
-wbhue theme inspect <name.buddyhue-theme> --json
+wbhue theme pack <buddyhue.json> --output <名称.buddyhue-theme> --json
+wbhue theme inspect <名称.buddyhue-theme> --json
 ```
 
-## Decision-relevant exit codes
+## 影响任务判断的退出码
 
-| Code | Meaning | Response |
+| 退出码 | 含义 | 处理方式 |
 | --- | --- | --- |
-| `0` | Success | Continue to the next validation step. |
-| `2` | Invalid command or argument | Correct the invocation. |
-| `3` | WorkBuddy version is not verified | Stop or ask before `--allow-untested`. |
-| `4` | WorkBuddy restart is required | Ask before retrying with `--restart`. |
-| `5` | DOM compatibility or verification failed | Report rollback and inspect landmarks. |
-| `6` | Package or integrity failure | Repair or rebuild the package. |
-| `7` | Theme compatibility range mismatch | Use a compatible theme; do not force it. |
-| `8` | WorkBuddy was not found | Confirm installation or `--app-path`. |
-| `9` | Installed theme was not found | Install the package or correct the ID. |
-| `10` | Theme library conflict or active-version protection | Resolve the exact library state; do not delete the active theme. |
+| `0` | 成功 | 继续下一项校验。 |
+| `2` | 命令或参数无效 | 修正调用方式。 |
+| `3` | WorkBuddy 版本未经验证 | 停止，或在使用 `--allow-untested` 前询问用户。 |
+| `4` | 必须重启 WorkBuddy | 在使用 `--restart` 重试前询问用户。 |
+| `5` | DOM 兼容或验证失败 | 报告回滚情况并检查界面标志。 |
+| `6` | 皮肤包或完整性校验失败 | 修复或重新构建皮肤包。 |
+| `7` | 主题兼容版本范围不匹配 | 改用兼容主题，不要强制应用。 |
+| `8` | 未找到 WorkBuddy | 确认安装位置或 `--app-path`。 |
+| `9` | 未找到已安装主题 | 安装皮肤包或修正主题标识。 |
+| `10` | 主题库冲突或当前版本保护 | 核实主题库的精确状态，不得删除当前主题。 |
 
-## State-changing options
+## 会改变状态的选项
 
-- `--restart` authorizes BuddyHue to restart WorkBuddy. Ask immediately before using it.
-- `--allow-untested` attempts a WorkBuddy version outside the verified adapter range. Ask immediately before using it.
-- `install --force` replaces different content using the same theme ID and version. Prefer a version bump; use force only when the user explicitly wants replacement.
+- `--restart` 授权 BuddyHue 重启 WorkBuddy，使用前必须立即询问用户。
+- `--allow-untested` 会尝试超出已验证适配范围的 WorkBuddy 版本，使用前必须立即询问用户。
+- `install --force` 会用相同主题标识和版本替换不同内容。优先提高主题版本号；只有用户明确要求替换时才使用强制安装。
 
-## JSON result handling
+## 处理 JSON 结果
 
-All primary commands return a stable envelope containing `schemaVersion`, `tool`, `command`, and `ok`. Read command-specific fields rather than parsing display strings. Redact or omit local paths in reports when the user does not need them.
+主要命令都会返回稳定的结果结构，其中包含 `schemaVersion`、`tool`、`command` 和 `ok`。应读取命令专属字段，不要解析显示文本。用户不需要本地路径时，应在报告中隐藏或省略这些路径。
